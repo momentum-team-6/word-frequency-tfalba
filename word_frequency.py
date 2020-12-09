@@ -27,10 +27,17 @@ def print_word_freq(file):
                 counts[word] += 1
             else:
                 counts[word] = 1
+        
     #sorted_keys = sorted(counts.items())
     #counts_dict = dict(sorted_keys)
-    import operator
-    sorted_counts = sorted(counts.items(), key=operator.itemgetter(1))
+    # operator is a function that operates similar to lambda
+    #import operator
+    #sorted_counts = sorted(counts.items(), key=operator.itemgetter(1))
+    sorted_counts_word = sorted(counts.items(), key = lambda kv:kv[0], reverse = True)
+    counts_word = dict(sorted_counts_word)
+    sorted_counts = sorted(counts_word.items(), key = lambda kv:kv[1])
+    counts = dict(sorted_counts)
+            
     # Set star_display, word_length, and padded_key lists
     star_display = []
     word_length = []
@@ -45,9 +52,9 @@ def print_word_freq(file):
         star_display.append('')
         word_length.append(len(sorted_counts[i][0]))
         padded_key.append(sorted_counts[i][0])
-        if i > 0:
-            if len(sorted_counts[i][0])>longest_word_length:
-                longest_word_length = word_length[i]
+        
+        if len(sorted_counts[i][0])>longest_word_length:
+            longest_word_length = word_length[i]
 
 # Inner loops to assign padding to padded_key and set number of *'s for display
     for i in range(len(sorted_counts)):
@@ -61,7 +68,7 @@ def print_word_freq(file):
         if int(sorted_counts[i][1]) > 1:
             print(padded_key[i], '|', sorted_counts[i][1], star_display[i])
     
-    return sorted_counts
+    return counts
     
 if __name__ == "__main__":
     import argparse
