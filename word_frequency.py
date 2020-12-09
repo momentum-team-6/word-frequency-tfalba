@@ -42,7 +42,7 @@ def print_word_freq(file):
             j += 1
         #print(sorted_counts[i][0], sorted_counts[i][1])
         if int(sorted_counts[i][1]) > 1:
-            print(sorted_counts[i][0], ' | ', star_display[i])
+            print(sorted_counts[i][0], ' | ', sorted_counts[i][1], star_display[i])
             #figure out how to print padding at left
     
     return counts
