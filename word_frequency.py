@@ -23,11 +23,28 @@ def print_word_freq(file):
                 counts[word] += 1
             else:
                 counts[word] = 1
+    import operator
+    sorted_keys = sorted(counts.items())
+    counts_dict = dict(sorted_keys)
+    # make use of counts_dict to be able to reverse sort at end
+    # within value of certain amount
+    sorted_counts = sorted(counts_dict.items(), key=operator.itemgetter(1))
+    star_display = []
+
+    for i in range(len(sorted_counts)):
+        star_display.append('')
+
+    for i in reversed(range(len(sorted_counts))):
+        range_j = int(sorted_counts[i][1])
+        j = 0
+        while j < range_j:
+            star_display[i] += '*'
+            j += 1
+        #print(sorted_counts[i][0], sorted_counts[i][1])
+        if int(sorted_counts[i][1]) > 1:
+            print(sorted_counts[i][0], ' | ', star_display[i])
+            #figure out how to print padding at left
     
-    print(counts)
-    # Next up write a sorter to sort by count value over keys and then print **** based on number
-    # for value in counts.values():
-    #     print(value)
     return counts
     
 if __name__ == "__main__":
