@@ -3,13 +3,13 @@ STOP_WORDS = [
     'i', 'in', 'is', 'it', 'its', 'of', 'on', 'that', 'the', 'to', 'were',
     'will', 'with'
 ]
-PUNC = r'''!()-[]{};:'"\, <>./?@#$%^&*_~'''
+PUNC = '''!()-[]{};:'"\, <>./?@#$%^&*_~'''
 
 def print_word_freq(file):
     """Read in `file` and print out the frequency of words in that file."""
     
     read_file = open(file, 'r').read().lower()
-    read_file = read_file.replace('—', '  ')
+    read_file = read_file.replace('—', ' ')
     read_file = read_file.replace('-', ' ') 
     words = read_file.split()
 
@@ -24,28 +24,33 @@ def print_word_freq(file):
             else:
                 counts[word] = 1
     import operator
-    sorted_keys = sorted(counts.items())
-    counts_dict = dict(sorted_keys)
-    # make use of counts_dict to be able to reverse sort at end
-    # within value of certain amount
-    sorted_counts = sorted(counts_dict.items(), key=operator.itemgetter(1))
+    #sorted_keys = sorted(counts.items())
+    #counts_dict = dict(sorted_keys)
+    sorted_counts = sorted(counts.items(), key=operator.itemgetter(1))
     star_display = []
+    longest_word_length = len(sorted_counts[0][0])
+    word_length = []
+    padded_key = []
 
     for i in range(len(sorted_counts)):
+        len(sorted_counts[i][0])
         star_display.append('')
-
-    for i in reversed(range(len(sorted_counts))):
-        range_j = int(sorted_counts[i][1])
-        j = 0
-        while j < range_j:
+        word_length.append(len(sorted_counts[i][0]))
+        padded_key.append(sorted_counts[i][0])
+        if i > 0:
+            if len(sorted_counts[i][0])>longest_word_length:
+                longest_word_length = word_length[i]
+    for i in range(len(sorted_counts)):
+        for j in range(longest_word_length - word_length[i]): 
+            padded_key[i] = ' ' + padded_key[i]
+        for k in range(int(sorted_counts[i][1])):
             star_display[i] += '*'
-            j += 1
-        #print(sorted_counts[i][0], sorted_counts[i][1])
+        
+    for i in reversed(range(len(sorted_counts))):
         if int(sorted_counts[i][1]) > 1:
-            print(sorted_counts[i][0], ' | ', sorted_counts[i][1], star_display[i])
-            #figure out how to print padding at left
+            print(padded_key[i], '|', sorted_counts[i][1], star_display[i])
     
-    return counts
+    return sorted_counts
     
 if __name__ == "__main__":
     import argparse
